@@ -4,8 +4,14 @@ import matplotlib.pyplot as plt
 # Define the input parameters
 r1 = 0.98 # Reflectance of mirror 1 
 r2 = 0.98 # Reflectance of mirror 2 
-t1 = 0.98 # Transmittance of mirror 1 
-t2 = 0.98 # Transmittance of mirror 2 
+
+# Different ways to define t1, t2 use the convenient one
+# t1 = 0.98 # Transmittance of mirror 1 
+# t2 = 0.98 # Transmittance of mirror 2 
+
+t1 = np.sqrt(1-r1**2)
+t2 = t1
+
 n = 1
 wavelen = 1550e-8
 k = 2 * np.pi * n / wavelen 
@@ -57,13 +63,19 @@ def power_ratio(t1, r1,r2,L, k):
     power_ratio_mag = power_ratio.real**2 + power_ratio.imag**2
     return  power_ratio_mag
     # return (t1**2) / (1 + r1**2 * r2**2 - 2 * r1 * r2 * np.cos(2 * k * L))
+
+
+if __name__ == "__main__":
+    # Plot the graph
+    plt.figure(figsize=(10, 6))
+    plt.plot(L / wavelen, power_ratio(t1, r1, r2, k, L), label=r'$\left(\frac{A_1}{A_0}\right)^2$')
+
+    constant_line = (t1**2) / ((1 - r1 * r2)**2)  # Calculate the constant value
+    plt.plot(L / wavelen, np.full_like(L, constant_line), label='Constant Line')
     
-# Plot the graph
-plt.figure(figsize=(10, 6))
-plt.plot(L / wavelen, power_ratio(t1, r1, r2, k, L), label=r'$\left(\frac{A_1}{A_0}\right)^2$')
-plt.xlabel('Cavity Length (L / λ)')
-plt.ylabel('Power Ratio (A1 / A0)^2')
-plt.title('Cavity Power Enhancement vs Cavity Length')
-plt.grid(True)
-plt.legend()
-plt.show()
+    plt.xlabel('Cavity Length (L / λ)')
+    plt.ylabel('Power Ratio (A1 / A0)^2')
+    plt.title('Cavity Power Enhancement vs Cavity Length')
+    plt.grid(True)
+    plt.legend()
+    plt.show()
