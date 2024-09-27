@@ -2,8 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Define the input parameters
-r1 = 0.98 # Reflectance of mirror 1 
-r2 = 0.98 # Reflectance of mirror 2 
+r1 = 0.8 # Reflectance of mirror 1 
+r2 = 0.8 # Reflectance of mirror 2 
 
 # Different ways to define t1, t2 use the convenient one
 # t1 = 0.98 # Transmittance of mirror 1 
@@ -17,7 +17,7 @@ wavelen = 1550e-8
 k = 2 * np.pi * n / wavelen 
 A0 = 100 # Input power mW
 # Define a range of cavity lengths L 
-L = np.linspace(0, 2* wavelen, 10000)  # From 0 to 5 wavelengths)
+L = np.linspace(0, 200* 13e-8, 10000)  # From 0 to 5 wavelengths)
 
 # Define the transfer matrix for mirror 1 (M1)
 M1 = (1/(1j*t1))*np.array([
@@ -26,10 +26,11 @@ M1 = (1/(1j*t1))*np.array([
 ])
 
 # Define the propagation matrix (PLn)
-PLn = np.array([
-    [np.exp(1j * k * L), 0],
-    [0, np.exp(-1j * k * L)]
-])
+PLn = np.zeros((2, 2), dtype=complex)
+
+# Assign values to the matrix
+PLn[0, 0] = np.exp(1j * k * L)
+PLn[1, 1] = np.exp(-1j * k * L)
 
 # Define the transfer matrix for mirror 2 (M2)
 M2 = (1/(1j*t2))*np.array([
