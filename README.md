@@ -2,4 +2,4 @@
 
 Data anaysis scripts for the power inside optical cavity
 
-**Project Report:** [report](final report.pdf)
+**Project Report:** [report](final_report.pdf)
